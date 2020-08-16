@@ -6,4 +6,3 @@ Team*.zip
 *.ovpn
 
 node_modules/
-.env
