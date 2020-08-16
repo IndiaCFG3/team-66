@@ -19,6 +19,7 @@ import {
   FormGroup,
   Checkbox,
 } from "@material-ui/core";
+import { post } from "../../api/fetch_backend";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -73,6 +74,35 @@ export default function RegistrationForm() {
     setRationCard(str === "family");
   };
 
+  const getDocs = () => {
+    let arr = [];
+    if (aadharCard) arr.push("Aadhar Card");
+    if (panCard) arr.push("PAN Card");
+    if (rationCard) arr.push("Ration Card");
+    return arr;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const objToSend = {
+      gender: values.gender,
+      age: values.age,
+      aadhar: values.aadhar,
+      phoneNo: values.phNumber,
+      noOfFamily: values.numPeople,
+      rationCard: values.ration,
+      payment: values.paymentStatus,
+      location: values.location,
+      isFamilyNGOMember: values.isFamily,
+      docs: getDocs(),
+    };
+    try {
+      let ret = post("/user/set", objToSend);
+    } catch (e) {
+      alert("Oops! An error occurred..." + e.message.toString());
+    }
+  };
+
   const classes = useStyles();
 
   return (
@@ -113,20 +143,20 @@ export default function RegistrationForm() {
                   aria-label="gender"
                   name="gender1"
                   value={values.gender}
-                  onChange={handleChange}
+                  onChange={handleChange("gender")}
                 >
                   <FormControlLabel value="female" control={<Radio />} label="Female" />
                   <FormControlLabel value="male" control={<Radio />} label="Male" />
                   <FormControlLabel value="other" control={<Radio />} label="Other" />
                 </RadioGroup>
               </Grid>
-              <Grid item xs={12} className={classes.section}>
+              <Grid item xs={12}>
                 <InputLabel htmlFor="age">Age*</InputLabel>
                 <Input
                   id="age"
                   type="number"
                   value={values.age}
-                  onChange={handleChange("lastName")}
+                  onChange={handleChange("age")}
                   autoComplete="age"
                   required
                   fullWidth
@@ -138,7 +168,7 @@ export default function RegistrationForm() {
                   id="location"
                   type="text"
                   value={values.location}
-                  onChange={handleChange("lastName")}
+                  onChange={handleChange("location")}
                   autoComplete="location"
                   required
                   fullWidth
@@ -150,7 +180,7 @@ export default function RegistrationForm() {
                   id="numPeople"
                   type="text"
                   value={values.numPeople}
-                  onChange={handleChange("lastName")}
+                  onChange={handleChange("numPeople")}
                   autoComplete="numPeople"
                   required
                   fullWidth
@@ -162,7 +192,10 @@ export default function RegistrationForm() {
                   aria-label="livStatus"
                   name="gender1"
                   value={values.livStatus}
-                  onChange={(e) => handleFamily(e.target.value)}
+                  onChange={(e) => {
+                    handleFamily(e.target.value);
+                    handleChange("livStatus");
+                  }}
                 >
                   <FormControlLabel value="alone" control={<Radio />} label="Alone" />
                   <FormControlLabel value="family" control={<Radio />} label="Family" />
@@ -176,7 +209,7 @@ export default function RegistrationForm() {
                     id="ration"
                     type="text"
                     value={values.ration}
-                    onChange={handleChange("lastName")}
+                    onChange={handleChange("ration")}
                     autoComplete="aadhar"
                     required
                     fullWidth
@@ -189,7 +222,7 @@ export default function RegistrationForm() {
                   id="aadhar"
                   type="text"
                   value={values.aadhar}
-                  onChange={handleChange("lastName")}
+                  onChange={handleChange("aadhar")}
                   autoComplete="aadhar"
                   required
                   fullWidth
@@ -200,8 +233,8 @@ export default function RegistrationForm() {
                 <Input
                   id="phone"
                   type="text"
-                  value={values.aadhar}
-                  onChange={handleChange("lastName")}
+                  value={values.phNumber}
+                  onChange={handleChange("phNumber")}
                   autoComplete="aadhar"
                   required
                   fullWidth
@@ -213,7 +246,7 @@ export default function RegistrationForm() {
                   aria-label="paymentStatus"
                   name="PaymentStatus"
                   value={values.paymentStatus}
-                  onChange={handleChange}
+                  onChange={handleChange("paymentStatus")}
                 >
                   <FormControlLabel value="pending" control={<Radio />} label="Pending" />
                   <FormControlLabel value="success" control={<Radio />} label="Success" />
@@ -264,7 +297,7 @@ export default function RegistrationForm() {
               variant="contained"
               color="primary"
               className={classes.submit}
-              // onClick={(e) => handleSubmit(e)}
+              onClick={(e) => handleSubmit(e)}
             >
               Sign Up
             </Button>
