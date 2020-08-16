@@ -1,45 +1,24 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
-import "./App.css";
-
-import { Button } from "@material-ui/core";
-
-import withFirebaseAuth from "react-with-firebase-auth";
-import * as firebase from "firebase/app";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "firebase/auth";
-import firebaseConfig from "./config/firebase.config";
+import Card from "./components/HowTo/Card";
+import Home from "./components/Home/Home";
+import { Toolbar, IconButton, Typography, Button, makeStyles } from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
+import AppbarWebsite from "./components/Home/Appbar";
+import RegistrationForm from "./components/Form/RegistrationForm";
 
-const firebaseApp = firebase.initializeApp(firebaseConfig);
-const firebaseAppAuth = firebaseApp.auth();
-const providers = {
-  googleProvider: new firebase.auth.GoogleAuthProvider(),
+const App = () => {
+  return (
+    <Router>
+      <AppbarWebsite />
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/howto/:cardName" component={Card} />
+        <Route exact path="/register" component={RegistrationForm} />
+      </Switch>
+    </Router>
+  );
 };
 
-class App extends Component {
-  render() {
-    const { user, signOut, signInWithGoogle } = this.props;
-
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          {user ? <p>Hello, {user.displayName}</p> : <p>Please sign in.</p>}
-          {user ? (
-            <Button variant="contained" color="primary" onClick={signOut}>
-              Sign out
-            </Button>
-          ) : (
-            <Button variant="contained" color="primary" onClick={signInWithGoogle}>
-              Sign in with Google
-            </Button>
-          )}
-        </header>
-      </div>
-    );
-  }
-}
-
-export default withFirebaseAuth({
-  providers,
-  firebaseAppAuth,
-})(App);
+export default App;
