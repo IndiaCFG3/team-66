@@ -86,7 +86,7 @@ var GenerateList = function(User, Schemes) {
             }
         } else {
             //User is not eligible,for some reason != lac of docs
-            all_eligible_schemes[Scheme.name] = -1
+            all_eligible_schemes[Scheme] = -1
                 //-1 implies income mismatch or location mismatch,or gender/age issues
         }
     }
