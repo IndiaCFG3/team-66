@@ -103,6 +103,10 @@ export default function RegistrationForm() {
     }
   };
 
+  const onChangeRadio = (str) => {
+    return str !== values.livStatus;
+  };
+
   const classes = useStyles();
 
   return (
@@ -145,7 +149,12 @@ export default function RegistrationForm() {
                   value={values.gender}
                   onChange={handleChange("gender")}
                 >
-                  <FormControlLabel value="female" control={<Radio />} label="Female" />
+                  <FormControlLabel
+                    value="female"
+                    onSelect={(e) => onChangeRadio(e.target.value)}
+                    control={<Radio />}
+                    label="Female"
+                  />
                   <FormControlLabel value="male" control={<Radio />} label="Male" />
                   <FormControlLabel value="other" control={<Radio />} label="Other" />
                 </RadioGroup>

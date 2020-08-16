@@ -9,13 +9,14 @@ import AppbarWebsite from "./components/Home/Appbar";
 import RegistrationForm from "./components/Form/RegistrationForm";
 import NotFound from "./components/NotFound";
 import CustomerListView from "./components/Dashboard/Admin";
+import LandingPage from "./components/Home/LandingPage";
 
 const App = () => {
   return (
     <Router>
       <AppbarWebsite />
       <Switch>
-        <Route exact path="/" component={Home} />
+        <Route exact path="/" component={LandingPage} />
         <Route exact path="/howto/:cardName" component={Card} />
         <Route exact path="/register" component={RegistrationForm} />
         <Route exact path="/customerlist" component={CustomerListView} />
