@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import "firebase/auth";
 import Card from "./components/HowTo/Card";
-import Home from "./components/Home/Home";
 import { Toolbar, IconButton, Typography, Button, makeStyles } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import AppbarWebsite from "./components/Home/Appbar";
