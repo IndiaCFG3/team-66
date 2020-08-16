@@ -3,10 +3,10 @@ var MissingDocs = function(User, Scheme) {
     //The list of documents can be maintained as an object(dictionary)
     //Key(Document_name)->Value(Reqiured/Present)
     //docs_missing will be an object of type documents(dictionary)
-    var docs_missing
+    //var docs_missing
     let all_docs = 1
     for (var doc_name in Scheme.docs) {
-        if (Scheme.docs[doc_name] == 1) //This doc is required
+        /*if (Scheme.docs[doc_name] == 1) //This doc is required
         {
             if (User.docs[doc_name] == 0) {
                 //The user doesn't have this doc
@@ -18,12 +18,15 @@ var MissingDocs = function(User, Scheme) {
         } else {
             //This document is not required.(Let's say -1 denotes that in the returned value)
             docs_missing[doc_name] = -1;
+        }*/
+        if (User.docs.find(doc_name) != true) {
+            all_docs = 0
         }
     }
     if (all_docs == 1) {
-        return true;
+        return false;
     } else {
-        return docs_missing;
+        return true;
     }
 }
 
@@ -44,7 +47,7 @@ var inSameLocation = function(User, Scheme) {
 }
 
 var isAgeEligible = function(User, Scheme) {
-    if (User.age >= Scheme.lower_age_bound && User.age <= Scheme.upper_age_bound) {
+    if (User.age >= Scheme.lowerAge && User.age <= Scheme.upperAge) {
         return true;
     } else {
         return false;
@@ -53,13 +56,20 @@ var isAgeEligible = function(User, Scheme) {
 
 var isGenderEligible = function(User, Scheme) {
 
-    if (Scheme.gender == 'ALL') {
+    let Genders = Scheme.gender
+    for (let gender in Genders) {
+        if (User.gender == gender) {
+            return true;
+        }
+    }
+    return false;
+    /*if (Scheme.gender == 'ALL') {
         return true;
     } else if (Scheme.gender == 'FEMALE' && User.gender == 'FEMALE') {
         return true;
     } else {
         return false;
-    }
+    }*/
 }
 
 var GenerateList = function(User, Schemes) {
@@ -67,12 +77,12 @@ var GenerateList = function(User, Schemes) {
     var all_eligible_schemes
     for (var Scheme in Schemes) {
         if (isIncomeEligible(User, Scheme) && isSameLocation(User, Scheme) && isAgeEligible(User, Scheme) && isGenderEligible(User, Scheme)) {
-            eligible = MissingDocs(User, Scheme)
-            if (eligible == true) {
-                all_eligible_schemes[Scheme.name] = 1
+            not_eligible = MissingDocs(User, Scheme)
+            if (!not_eligible == true) {
+                all_eligible_schemes[Scheme] = 1
             } else {
-                all_eligible_schemes[Scheme.name] = 0
-                all_eligible_schemes[Scheme.name].missingDocs = eligible
+                all_eligible_schemes[Scheme] = 0
+                    //all_eligible_schemes[Scheme].missingDocs = eligible
             }
         } else {
             //User is not eligible,for some reason != lac of docs
