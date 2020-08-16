@@ -5,4 +5,8 @@ Team*.zip
 *.key
 *.ovpn
 
+<<<<<<< HEAD
 node_modules/
+=======
+node_modules/
+>>>>>>> 646a6ce53cecca7257f406ca6a2a6956070387d2
