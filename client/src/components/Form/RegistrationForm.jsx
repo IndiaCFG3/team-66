@@ -65,6 +65,8 @@ export default function RegistrationForm() {
   const [rationCard, setRationCard] = useState(false);
   const [panCard, setPanCard] = useState(false);
 
+  const [data, setData] = useState([]);
+
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
@@ -87,7 +89,7 @@ export default function RegistrationForm() {
     const objToSend = {
       gender: values.gender,
       age: values.age,
-      aadhar: values.aadhar,
+      adhaar: values.aadhar,
       phoneNo: values.phNumber,
       noOfFamily: values.numPeople,
       rationCard: values.ration,
@@ -97,7 +99,8 @@ export default function RegistrationForm() {
       docs: getDocs(),
     };
     try {
-      let ret = post("/user/set", objToSend);
+      let ret = post("user/set", objToSend);
+      console.log(ret);
     } catch (e) {
       alert("Oops! An error occurred..." + e.message.toString());
     }
