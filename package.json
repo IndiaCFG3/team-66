@@ -1,0 +1,26 @@
+{
+  "name": "cfg-team-66",
+  "version": "1.0.0",
+  "description": "CFG Solution by Team 66",
+  "main": "server.js",
+  "author": "Team 66",
+  "license": "MIT",
+  "scripts": {
+    "start": "node server.js",
+    "lint": "eslint . --fix",
+    "pretty": "prettier '**/*.js' --write",
+    "format": "npm run pretty && npm run lint"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "firebase-admin": "^9.1.0",
+    "node-cron": "^2.0.3",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "prettier": "^2.0.5"
+  }
+}
