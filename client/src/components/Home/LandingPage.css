@@ -1,0 +1,13 @@
+.LandingPage {
+    margin: 2rem;
+}
+
+ul { 
+    list-style: none;
+    display: flex; 
+    flex-wrap: wrap;
+}
+
+li {
+    margin: 2rem;
+}

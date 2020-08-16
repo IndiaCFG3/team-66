@@ -1,6 +1,7 @@
 import React from "react";
 import { AppBar, Toolbar, IconButton, Typography, makeStyles, Button } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
+import  Home  from "./Home";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,6 +27,7 @@ export default function AppbarWebsite() {
         <Typography variant="h6" className={classes.title}>
           News
         </Typography>
+        <Button color="inherit" onClick={ Home }>Register</Button>
         <Button color="inherit">Login</Button>
       </Toolbar>
     </AppBar>
