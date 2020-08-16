@@ -68,11 +68,11 @@ app.post("/user/set", (req, res) => {
 });
 
 // Get all the families within the same location as adminLocation
-const findFamilies = (adminLocation) => {
+const findFamilies = async(adminLocation) => {
   const familyRef = db.collection("family");
   const usersUnderAdmin = [];
   const snapshot = await familyRef.get();
-  snapshot.forEach(doc => {
+  snapshot.forEach(async(doc) => {
     const subCollection = await doc.listCollections();
     const subArray = [];
     subCollection.forEach(collection => {
