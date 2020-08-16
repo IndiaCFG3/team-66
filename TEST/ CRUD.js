@@ -19,7 +19,7 @@ var AllSchemes = []
 
 schemesRef.on("child_added", snap => {
     let scheme = snap.val()
-    AllSchemes.push(scheme)
+    AllSchemes = AllSchemes.push(scheme)
 })
 
 var AddScheme = function(Scheme) {
