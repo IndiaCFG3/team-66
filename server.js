@@ -45,23 +45,66 @@ app.post("/user/set", (req, res) => {
         // new user save to db
         db.collection("users").doc(userModel.adhaar).set(userModel, { merge: true });
         res.send(userModel);
-        if (userModel.isFamilyNGOMember && userModel.noOfFamily > 1) {
+        if (userModel.isFamilyNGOMember) {
           db.collection("family").doc(userModel.rationCard)
           .get().then(doc => {
             if (userModel.member) {
-              db.collection("family").doc(userModel.rationCard).set(userModel.adhaar, { merge: true });
+              let familyModel = {
+                adhaar: userModel.adhaar,
+                location: userModel.location
+              };
+
+              db.collection("family").doc(userModel.rationCard).set(familyModel, { merge: true });
             }
           })
         }
       } else {
-        // existing user get data from db
-        db.collection("users").doc(userModel.adhaar).set(userModel, { merge: true });
         db.collection("users")
-          .doc(userModel.id)
+          .doc(userModel.adhaar)
           .get()
           .then((doc) => res.send(doc.data()));
       }
     })
+});
+
+// Get all the families within the same location as adminLocation
+const findFamilies = (adminLocation) => {
+  const familyRef = db.collection("family");
+  const usersUnderAdmin = [];
+  const snapshot = await familyRef.get();
+  snapshot.forEach(doc => {
+    const subCollection = await doc.listCollections();
+    const subArray = [];
+    subCollection.forEach(collection => {
+      if (collection.location == adminLocation) {
+        subArray.push(collection);
+      }
+    });
+    if (subArray.length !== 0) {
+      usersUnderAdmin.push(subArray);
+    }
+  });
+  return usersUnderAdmin;
+};
+
+// Store the admin details
+app.post("/admin", (req, res) => {
+  let adminModel = req.body;
+  db.collection("admin").doc(adminModel.adminId)
+  .get()
+  .then(doc => {
+    if (!doc.exists) {
+      adminModel[allMembers] = findFamilies(adminModel.location);
+      db.collection("admin").doc(adminModel.adminId).set(adminModel, { merge: true });
+      res.send(adminModel);
+    } else {
+      // existing user get data from db
+      db.collection("admin")
+        .doc(admninModel.adminId)
+        .get()
+        .then((doc) => res.send(doc.data()));
+    }
+  });
 });
 
 // create a GET route
