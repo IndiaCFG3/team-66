@@ -33,6 +33,37 @@ admin.initializeApp({
 });
 let db = admin.firestore();
 
+//Get user details and store it on firebase 
+app.post("/user/set", (req, res) => {
+  let userModel = req.body;
+  db.collection("users") 
+    .doc(userModel.adhaar)
+    .get()
+    .then(doc => {
+      if (!doc.exists) {
+        userModel.scheme = "";
+        // new user save to db
+        db.collection("users").doc(userModel.adhaar).set(userModel, { merge: true });
+        res.send(userModel);
+        if (userModel.isFamilyNGOMember && userModel.noOfFamily > 1) {
+          db.collection("family").doc(userModel.rationCard)
+          .get().then(doc => {
+            if (userModel.member) {
+              db.collection("family").doc(userModel.rationCard).set(userModel.adhaar, { merge: true });
+            }
+          })
+        }
+      } else {
+        // existing user get data from db
+        db.collection("users").doc(userModel.adhaar).set(userModel, { merge: true });
+        db.collection("users")
+          .doc(userModel.id)
+          .get()
+          .then((doc) => res.send(doc.data()));
+      }
+    })
+});
+
 // create a GET route
 // global.window = {};
 app.get("/express_backend", (req, res) => {
