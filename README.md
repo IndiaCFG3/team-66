@@ -39,3 +39,5 @@ This will help in keeping the code formatted and understandable.
 
 > This should run parallely. On `localhost:5000/express_backend`, you should get a message saying `Backend Connected` as the receiving message which shows the temporary connection between the front-end and back-end.
 
+
+##### The code ("Code") in this repository was created solely by the student teams during a coding competition hosted by JPMorgan Chase Bank, N.A. ("JPMC").						JPMC did not create or contribute to the development of the Code.  This Code is provided AS IS and JPMC makes no warranty of any kind, express or implied, as to the Code,						including but not limited to, merchantability, satisfactory quality, non-infringement, title or fitness for a particular purpose or use.
